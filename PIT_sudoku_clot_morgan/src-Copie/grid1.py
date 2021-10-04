@@ -14,24 +14,25 @@ class SudokuGrid:
             où ``0`` indique une case vide
         :type initial_values_str: str
         """
+        self.initial_values_str = initial_values_str
              
-        self.grid = [[0] * 9 for i in range(9)]
-        compteur = 0
-        
-        if len(initial_values_str) != 81 :
-            print("81 numbers are needed")
-            raise ValueError()
-        else:
-            try:
-                self.initial_values_str = initial_values_str
-                for lignes in range(9) :
-                    for colones in range(9):
-                            self.grid[lignes][colones] = (int(self.initial_values_str[compteur]))
-                            compteur += 1
-            except:
-                print("Lettres non autorisées.")
-                raise ValueError()
-                
+        try :
+            lettre = 0
+            for var in initial_values_str:
+                if var in ["0","1","2","3","4","5","6","7","8","9"]:
+                    pass
+                else:
+                    lettre += 1
+                    raise ValueError()
+            if len(initial_values_str) != 81 or lettre != 0:
+                raise ValueError()                 
+            else:
+                initial_values_Int = int(initial_values_str)
+
+        except NotImplementedError:
+            print("Erreur")
+
+        #rajouter une grille -> attribu grille 
         
 
     @staticmethod
@@ -48,11 +49,11 @@ class SudokuGrid:
         :rtype: SudokuGrid
         """
         #raise NotImplementedError()
-        print("LES ARGUMENT SONT : ",filename,line)
         with open(filename, 'r') as file:
             for i,chiffres in enumerate(file):
                 if i+1 == line:
                     return chiffres              
+
         file.close()
 
     @staticmethod
@@ -64,9 +65,9 @@ class SudokuGrid:
         :return: La grille de Sudoku correspondant à la ligne donnée par l'utilisateur
         :rtype: SudokuGrid
         """
-         
-        return int(input("votre grille de sudoku : "))
-        raise NotImplementedError()
+        choix_utilisateur = int(input("votre grille de sudoku : "))
+        return choix_utilisateur
+        #raise NotImplementedError()
 
     def __str__(self):
         """À COMPLÉTER!
@@ -74,14 +75,19 @@ class SudokuGrid:
         :return: Une chaîne de caractère (sur plusieurs lignes...) représentant la grille
         :rtype: str
         """
-        grille_str=""
-        for lignes in range(9):
-            for col in range(9):
-                grille_str = grille_str + str(self.grid[lignes][col])
-            grille_str = grille_str + "\n"
+        nbchiffre=0
+        grille=""
+        for var in self.initial_values_str:
+            if nbchiffre <= 8 :
+                grille = grille + var
+                nbchiffre += 1
+            else:
+                grille = grille + "\n" + var
+                nbchiffre =1
+        print("test 3 : ",grille)
+        return grille
 
-        return grille_str
-
+        #raise NotImplementedError()
 
     def get_row(self, i):
         """À COMPLÉTER!
@@ -92,7 +98,21 @@ class SudokuGrid:
         :return: La liste des valeurs présentes à la ligne donnée
         :rtype: list of int
         """
-        raise NotImplementedError()
+        format = SudokuGrid.__str__(self).split("\n")
+        print ("FORMAT : ",format)
+        row= int()
+        li=[]
+        for index,ligne in enumerate(format) :
+            if i == index :
+                row =  str(ligne)
+
+        for i in range(9) :
+            li.append(int(row[i]))
+        
+        print(li,"La ligne de fin est : ",ligne, "[STR]",row,"[INT]sous la forme de : ", type(row))
+        return li
+
+        # raise NotImplementedError()
 
     def get_col(self, j):
         """À COMPLÉTER!
