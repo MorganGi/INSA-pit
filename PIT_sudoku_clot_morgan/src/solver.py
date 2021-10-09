@@ -1,5 +1,7 @@
 #-*-coding: utf8-*-
 
+from grid import SudokuGrid
+
 class SudokuSolver:
     """Cette classe permet d'explorer les solutions d'une grille de Sudoku pour la résoudre.
     Elle fait intervenir des notions de programmation par contraintes
@@ -14,7 +16,14 @@ class SudokuSolver:
         :param grid: Une grille de Sudoku
         :type grid: SudokuGrid
         """
-        raise NotImplementedError()
+        self.grid=grid
+        self.dic_caseVide = {}
+
+        for i in SudokuGrid.get_empty_pos(self.grid):
+            self.dic_caseVide[i] = set(range(1, 10))
+        
+        self.reduce_all_domains()
+
 
     def reduce_all_domains(self):
         """À COMPLÉTER
@@ -22,6 +31,18 @@ class SudokuSolver:
         et élimine toutes les valeurs impossibles pour chaque case vide.
         *Indication: Vous pouvez utiliser les fonction ``get_row``, ``get_col`` et ``get_region`` de la grille*
         """
+        for i in list(self.dic_caseVide.keys()):  # cast en list pour faire une copie et pouvoir del
+            row = set(self.grid.get_row(i[0]))
+            col = set(self.grid.get_col(i[1]))
+            reg = set(self.grid.get_region(i[0]  // 3, i[1]  // 3))
+
+            self.dic_caseVide[i] = self.dic_caseVide[i].difference(row  | col  | reg)
+        print(self.dic_caseVide)
+         
+
+
+        return 
+
         raise NotImplementedError()
 
     def reduce_domains(self, last_i, last_j, last_v):

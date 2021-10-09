@@ -13,30 +13,23 @@ def verif_saisie():
     v = int(input("Par quelle valeur voulez vous la remplacer ?"))
     try:
         Partie_1.write(ligne,colonne,v)
-
     except:
-        print("\n*********Choisir un emplacement vide (0) *********")
+        print("\n********* Choisir un emplacement vide (0) *********")
         
     
 
 if __name__=="__main__":
     flag = True
-    start = True
+    Args = []
+    for arg in sys.argv:
+        Args.append(str(arg))
+    if len(Args) == 3:
+        Partie_1 = SudokuGrid(SudokuGrid.from_file(str(Args[1]),int(Args[2])))
+        start=False   
+    else:
+        choix= input("Entre votre grille : ")
+        Partie_1 = SudokuGrid(choix)
+    
     while flag:
-        while start:
-            Args = []
-            for arg in sys.argv:
-                Args.append(str(arg))
-            print("ARGUMENTS LU DANS LA COMMANDE",Args, len(Args))
-            if len(Args) == 3:
-
-                Partie_1 = SudokuGrid(SudokuGrid.from_file(str(Args[1]),int(Args[2])))
-                start=False
-                
-            else:
-                choix= input("Entre votre grille : ")
-                Partie_1 = SudokuGrid(choix)
-                start=False
-        
         affiche_grille()
         verif_saisie()
