@@ -15,15 +15,14 @@ class TestSudokuGrid(unittest.TestCase):
                 + "100402000008000000000000376")
 
     def test_00_init(self):
-        
+        with self.assertRaises(ValueError): # char
+            grid = SudokuGrid("123456xyz" * 9)
         with self.assertRaises(ValueError): # hex values
             grid = SudokuGrid("123456abc" * 9)
         with self.assertRaises(ValueError): # too short
             grid = SudokuGrid("123456")
         with self.assertRaises(ValueError): # too long
             grid = SudokuGrid("12345678" * 11)
-        with self.assertRaises(ValueError): # char
-            grid = SudokuGrid("123456xyz" * 9)
 
     def test_01_from_file(self):
         grid = SudokuGrid.from_file(os.path.join(os.path.dirname(__file__), "..", "sudoku_db.txt"),
