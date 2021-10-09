@@ -1,1 +1,3 @@
-echo "PATH=$PATH:`pwd`" >> ~/.bashrc
+echo "PATH=$PATH:`pwd`/../src" >> ~/.bashrc
+
+source ~/.bashrc
